@@ -1,7 +1,10 @@
 #include "implicit_it.h"
 
 static int implicit_it_block_p(const rb_iseq_t *iseq) {
-  ID id_it = rb_intern("it");
+  ID id_it;
+  if (iseq->body->param.size) { return 0; }
+
+  id_it = rb_intern("it");
   for (unsigned int i = 0; i < iseq->body->ci_size; i++) {
     if (id_it == iseq->body->ci_entries[i].mid) {
       return 1;
