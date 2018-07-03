@@ -10,6 +10,13 @@
 
 enum method_missing_reason { FOO };
 
+struct rb_call_info {
+    /* fixed at compile time */
+    ID mid;
+    unsigned int flag;
+    int orig_argc;
+};
+
 typedef struct rb_control_frame_struct {
     const VALUE *pc;
     VALUE *sp;
