@@ -22,11 +22,17 @@ static VALUE setup_it_block_c_call() {
 }
 
 static VALUE setup_it_block_call() {
-  const rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
+  rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
   VALUE block_handler = (cfp + 2)->ep[VM_ENV_DATA_INDEX_SPECVAL];
-  struct rb_captured_block *captured = VM_TAGGED_PTR_REF(block_handler, 0x03);
-  const rb_iseq_t *iseq = captured->code.iseq;
-  ID *ids = (ID *)ALLOC_N(ID, 1);
+  struct rb_captured_block *captured;
+  const rb_iseq_t *iseq;
+  ID *ids;
+
+  if (!block_handler) { return Qnil; }
+
+  captured = VM_TAGGED_PTR_REF(block_handler, 0x03);
+  iseq = captured->code.iseq;
+  ids = (ID *)ALLOC_N(ID, 1);
   ids[0] = rb_intern("it");
   iseq->body->param.size = 1;
   iseq->body->param.flags.has_lead = 1;
