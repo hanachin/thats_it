@@ -9,7 +9,11 @@ static VALUE it() {
 static VALUE setup_it_block_c_call() {
   const rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
   rb_iseq_t *iseq = (rb_iseq_t *)(cfp + 2)->block_code;
-  ID *ids = (ID *)ALLOC_N(ID, 1);
+  ID *ids;
+
+  if (!iseq) { return Qnil; }
+
+  ids = (ID *)ALLOC_N(ID, 1);
   ids[0] = rb_intern("it");
   iseq->body->param.size = 1;
   iseq->body->param.flags.has_lead = 1;
