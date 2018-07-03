@@ -6,5 +6,10 @@ module ImplicitIt
 end
 
 TracePoint.trace(:call) do |tp|
-  setup_it_block
+  setup_it_block_call
+end
+
+
+TracePoint.trace(:c_call) do |tp|
+  setup_it_block_c_call if tp.method_id == :map
 end
