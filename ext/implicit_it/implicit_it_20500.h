@@ -1,3 +1,8 @@
+/*
+  copy from ruby source code
+  https://github.com/ruby/ruby/blob/trunk/COPYING.ja
+*/
+
 #define VM_ENV_DATA_INDEX_SPECVAL    (-1) /* ep[-1] */
 
 /* for setup_it_block */
