@@ -201,6 +201,36 @@ struct rb_captured_block {
     } code;
 };
 
+
+enum rb_block_type {
+    block_type_iseq,
+    block_type_ifunc,
+    block_type_symbol,
+    block_type_proc
+};
+
+enum rb_block_handler_type {
+    block_handler_type_iseq,
+    block_handler_type_ifunc,
+    block_handler_type_symbol,
+    block_handler_type_proc
+};
+
+struct rb_block {
+  union {
+    struct rb_captured_block captured;
+    VALUE symbol;
+    VALUE proc;
+  } as;
+  enum rb_block_type type;
+};
+
+typedef struct {
+    const struct rb_block block;
+    unsigned int is_from_method: 1;	/* bool */
+    unsigned int is_lambda: 1;		/* bool */
+} rb_proc_t;
+
 /* for it */
 enum method_missing_reason { FOO };
 

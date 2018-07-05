@@ -3,6 +3,7 @@
 
 #include "setjmp.h"
 #include "ruby.h"
+#include "ruby/ruby.h"
 #include "ruby/version.h"
 
 #endif /* IMPLICIT_IT_H */
