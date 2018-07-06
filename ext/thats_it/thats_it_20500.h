@@ -3,6 +3,8 @@
   https://github.com/ruby/ruby/blob/trunk/COPYING.ja
 */
 
+#define VM_ENV_FLAG_LOCAL 0x0002
+#define VM_ENV_DATA_INDEX_FLAGS      ( 0) /* ep[ 0] */
 #define VM_ENV_DATA_INDEX_SPECVAL    (-1) /* ep[-1] */
 
 /* for setup_it_block */

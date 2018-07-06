@@ -106,9 +106,30 @@ static VALUE rb_setup_it_block_c_call() {
   return Qnil;
 }
 
+static int env_local_p(VALUE *ep) {
+  VALUE flags = ep[VM_ENV_DATA_INDEX_FLAGS];
+  return flags & VM_ENV_FLAG_LOCAL ? 1 : 0;
+}
+
+static VALUE *prev_ep(VALUE *ep) {
+  return VM_TAGGED_PTR_REF(ep[VM_ENV_DATA_INDEX_SPECVAL], 0x03);
+}
+
+static VALUE *get_lep(VALUE *ep) {
+  while (!env_local_p(ep)) {
+    ep = prev_ep(ep);
+  }
+  return ep;
+}
+
+static VALUE get_block_handler(rb_control_frame_t *cfp) {
+  VALUE *ep = get_lep(cfp->ep);
+  return ep[VM_ENV_DATA_INDEX_SPECVAL];
+}
+
 static VALUE rb_setup_it_block_call() {
   rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
-  VALUE block_handler = (cfp + 2)->ep[VM_ENV_DATA_INDEX_SPECVAL];
+  VALUE block_handler = get_block_handler(cfp + 2);
   rb_iseq_t *iseq;
 
   if (!block_handler) { return Qnil; }
