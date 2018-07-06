@@ -22,20 +22,12 @@ static VALUE it() {
 static VALUE setup_it_block_c_call() {
   const rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
   rb_iseq_t *iseq = (rb_iseq_t *)(cfp + 2)->block_code;
-  ID *ids;
 
   if (!iseq) { return Qnil; }
   if (!implicit_it_block_p(iseq)) { return Qnil; }
 
-  ids = (ID *)ALLOC_N(ID, 1);
-  ids[0] = rb_intern("it");
-  iseq->body->param.size = 1;
-  iseq->body->param.flags.has_lead = 1;
-  iseq->body->param.lead_num = 1;
-  iseq->body->param.flags.ambiguous_param0 = 1;
-  iseq->body->local_table_size = 1;
-  ruby_xfree((void *)iseq->body->local_table);
-  iseq->body->local_table = ids;
+  rewrite_iseq(iseq);
+
   return Qnil;
 }
 
@@ -108,19 +100,8 @@ static const rb_iseq_t *block_handler_iseq(VALUE block_handler) {
   return NULL;
 }
 
-static VALUE setup_it_block_call() {
-  rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
-  VALUE block_handler = (cfp + 2)->ep[VM_ENV_DATA_INDEX_SPECVAL];
-  const rb_iseq_t *iseq;
-  ID *ids;
-
-  if (!block_handler) { return Qnil; }
-
-  iseq = block_handler_iseq(block_handler);
-
-  if (!implicit_it_block_p(iseq)) { return Qnil; }
-
-  ids = (ID *)ALLOC_N(ID, 1);
+static const void rewrite_iseq(const rb_iseq_t *iseq) {
+  ID *ids = (ID *)ALLOC_N(ID, 1);
   ids[0] = rb_intern("it");
   iseq->body->param.size = 1;
   iseq->body->param.flags.has_lead = 1;
@@ -129,6 +110,21 @@ static VALUE setup_it_block_call() {
   iseq->body->local_table_size = 1;
   ruby_xfree((void *)iseq->body->local_table);
   iseq->body->local_table = ids;
+}
+
+static VALUE setup_it_block_call() {
+  rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
+  VALUE block_handler = (cfp + 2)->ep[VM_ENV_DATA_INDEX_SPECVAL];
+  rb_iseq_t *iseq;
+
+  if (!block_handler) { return Qnil; }
+
+  iseq = block_handler_iseq(block_handler);
+
+  if (!implicit_it_block_p(iseq)) { return Qnil; }
+
+  rewrite_iseq(iseq);
+
   return Qnil;
 }
 
