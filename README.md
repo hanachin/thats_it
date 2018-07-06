@@ -26,6 +26,8 @@ You can use `it` method in a block to get a single parameter of the block like K
 [^1]: https://kotlinlang.org/docs/reference/lambdas.html#it-implicit-name-of-a-single-parameter
 
 
+    require "thats_it"
+
     2.yield_self { it * it }
     # => 4
 
