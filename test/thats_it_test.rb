@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ImplicitItTest < Test::Unit::TestCase
+class ThatsItTest < Test::Unit::TestCase
   def test_cfunc
     assert 2.yield_self { it * it } == 4
   end

@@ -1,6 +1,6 @@
-#include "implicit_it.h"
+#include "thats_it.h"
 
-static int implicit_it_block_p(const rb_iseq_t *iseq) {
+static int thats_it_block_p(const rb_iseq_t *iseq) {
   ID id_it;
   if (!iseq) { return 0; }
   if (iseq->body->param.size) { return 0; }
@@ -99,7 +99,7 @@ static VALUE rb_setup_it_block_c_call() {
   rb_iseq_t *iseq = (rb_iseq_t *)(cfp + 2)->block_code;
 
   if (!iseq) { return Qnil; }
-  if (!implicit_it_block_p(iseq)) { return Qnil; }
+  if (!thats_it_block_p(iseq)) { return Qnil; }
 
   rewrite_iseq(iseq);
 
@@ -115,7 +115,7 @@ static VALUE rb_setup_it_block_call() {
 
   iseq = block_handler_iseq(block_handler);
 
-  if (!implicit_it_block_p(iseq)) { return Qnil; }
+  if (!thats_it_block_p(iseq)) { return Qnil; }
 
   rewrite_iseq(iseq);
 
@@ -128,7 +128,7 @@ static VALUE rb_it() {
 }
 
 void
-Init_implicit_it(void)
+Init_thats_it(void)
 {
   rb_define_global_function("setup_it_block_c_call", rb_setup_it_block_c_call, 0);
   rb_define_global_function("setup_it_block_call", rb_setup_it_block_call, 0);

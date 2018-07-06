@@ -1,3 +1,3 @@
 require "bundler/setup"
-require "implicit_it"
+require "thats_it"
 require "test/unit"

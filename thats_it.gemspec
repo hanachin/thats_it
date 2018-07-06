@@ -1,16 +1,16 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "implicit_it/version"
+require "thats_it/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "implicit_it"
-  spec.version       = ImplicitIt::VERSION
+  spec.name          = "thats_it"
+  spec.version       = ThatsIt::VERSION
   spec.authors       = ["Seiei Miyagi"]
   spec.email         = ["hanachin@gmail.com"]
 
   spec.summary       = %q{Add `it` method to get stack top value like Kotlin.}
-  spec.homepage      = "https://github.com/hanachin/implicit_it"
+  spec.homepage      = "https://github.com/hanachin/thats_it"
   spec.license       = "MIT"
 
   # Specify which files should be added to the gem when it is released.
@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-  spec.extensions    = ["ext/implicit_it/extconf.rb"]
+  spec.extensions    = ["ext/thats_it/extconf.rb"]
 
   spec.required_ruby_version = '>= 2.5.0'
 

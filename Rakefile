@@ -10,8 +10,8 @@ end
 
 task :build => :compile
 
-Rake::ExtensionTask.new("implicit_it") do |ext|
-  ext.lib_dir = "lib/implicit_it"
+Rake::ExtensionTask.new("thats_it") do |ext|
+  ext.lib_dir = "lib/thats_it"
 end
 
 task :default => [:clobber, :compile, :test]
