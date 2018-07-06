@@ -94,7 +94,7 @@ static const void rewrite_iseq(const rb_iseq_t *iseq) {
   iseq->body->local_table = ids;
 }
 
-static VALUE setup_it_block_c_call() {
+static VALUE rb_setup_it_block_c_call() {
   const rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
   rb_iseq_t *iseq = (rb_iseq_t *)(cfp + 2)->block_code;
 
@@ -106,7 +106,7 @@ static VALUE setup_it_block_c_call() {
   return Qnil;
 }
 
-static VALUE setup_it_block_call() {
+static VALUE rb_setup_it_block_call() {
   rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
   VALUE block_handler = (cfp + 2)->ep[VM_ENV_DATA_INDEX_SPECVAL];
   rb_iseq_t *iseq;
@@ -122,7 +122,7 @@ static VALUE setup_it_block_call() {
   return Qnil;
 }
 
-static VALUE it() {
+static VALUE rb_it() {
   const rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
   return *(cfp + 2)->sp;
 }
@@ -130,7 +130,7 @@ static VALUE it() {
 void
 Init_implicit_it(void)
 {
-  rb_define_global_function("setup_it_block_c_call", setup_it_block_c_call, 0);
-  rb_define_global_function("setup_it_block_call", setup_it_block_call, 0);
-  rb_define_global_function("it", it, 0);
+  rb_define_global_function("setup_it_block_c_call", rb_setup_it_block_c_call, 0);
+  rb_define_global_function("setup_it_block_call", rb_setup_it_block_call, 0);
+  rb_define_global_function("it", rb_it, 0);
 }
