@@ -14,24 +14,6 @@ static int implicit_it_block_p(const rb_iseq_t *iseq) {
   return 0;
 }
 
-static VALUE it() {
-  const rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
-  return *(cfp + 2)->sp;
-}
-
-static VALUE setup_it_block_c_call() {
-  const rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
-  rb_iseq_t *iseq = (rb_iseq_t *)(cfp + 2)->block_code;
-
-  if (!iseq) { return Qnil; }
-  if (!implicit_it_block_p(iseq)) { return Qnil; }
-
-  rewrite_iseq(iseq);
-
-  return Qnil;
-}
-
-
 static inline enum rb_block_type block_type(const struct rb_block *block) {
     return block->type;
 }
@@ -112,6 +94,18 @@ static const void rewrite_iseq(const rb_iseq_t *iseq) {
   iseq->body->local_table = ids;
 }
 
+static VALUE setup_it_block_c_call() {
+  const rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
+  rb_iseq_t *iseq = (rb_iseq_t *)(cfp + 2)->block_code;
+
+  if (!iseq) { return Qnil; }
+  if (!implicit_it_block_p(iseq)) { return Qnil; }
+
+  rewrite_iseq(iseq);
+
+  return Qnil;
+}
+
 static VALUE setup_it_block_call() {
   rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
   VALUE block_handler = (cfp + 2)->ep[VM_ENV_DATA_INDEX_SPECVAL];
@@ -126,6 +120,11 @@ static VALUE setup_it_block_call() {
   rewrite_iseq(iseq);
 
   return Qnil;
+}
+
+static VALUE it() {
+  const rb_control_frame_t *cfp = ruby_current_execution_context_ptr->cfp;
+  return *(cfp + 2)->sp;
 }
 
 void
