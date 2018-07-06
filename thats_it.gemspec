@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Seiei Miyagi"]
   spec.email         = ["hanachin@gmail.com"]
 
-  spec.summary       = %q{Add `it` method to get stack top value like Kotlin.}
+  spec.summary       = %q{Provide Kotlin's `it` keyword in Ruby.}
+  spec.description   = %q{You can use `it` method in a block to get a single parameter of the block like Kotlin's `it` keyword}
   spec.homepage      = "https://github.com/hanachin/thats_it"
   spec.license       = "MIT"
 

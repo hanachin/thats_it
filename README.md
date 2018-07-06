@@ -1,5 +1,7 @@
 # ThatsIt
 
+Provide Kotlin's `it` keyword in Ruby.
+
 It's experimental ;) Don't use in production.
 
 ## Installation
@@ -19,6 +21,10 @@ Or install it yourself as:
     $ gem install thats_it
 
 ## Usage
+
+You can use `it` method in a block to get a single parameter of the block like Kotlin's `it` keyword[^1].
+[^1]: https://kotlinlang.org/docs/reference/lambdas.html#it-implicit-name-of-a-single-parameter
+
 
     2.yield_self { it * it }
     # => 4
